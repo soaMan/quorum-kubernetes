@@ -52,6 +52,9 @@ spec:
         app.kubernetes.io/namespace: {{ .Release.Namespace }}
         app.kubernetes.io/release: {{ .Release.Name }}
         app.kubernetes.io/managed-by: helm
+        {{- range $labelName, $labelValue := .Values.node.besu.customLabels }}
+        {{ $labelName }}: {{ $labelValue }}
+        {{- end }}
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: {{ .Values.node.besu.metrics.port | quote}}
