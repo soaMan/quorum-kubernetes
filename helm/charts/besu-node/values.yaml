@@ -33,6 +33,10 @@ storage:
   pvcSizeLimit: "20Gi"
   # NOTE: when you set this to Retain, the volume WILL persist after the chart is delete and you need to manually delete it
   reclaimPolicy: "Delete" # choose from: Delete | Retain 
+  type: "nfs" # select: local | nfs
+  nfs:
+    server: "" # nfs server address
+    mountOptions: "" # options: "nfsvers=4.2"
   aws:
     provisioner: kubernetes.io/aws-ebs
     parameters:

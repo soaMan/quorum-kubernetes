@@ -64,8 +64,33 @@ spec:
     storage: "{{ .Values.storage.sizeLimit }}"
   accessModes:
     - ReadWriteOnce
+    # 
+  {{- if eq .Values.storage.type "nfs" }}
+  nfs:
+    server: "{{ .Values.storage.nfs.server }}"
+    path: "/data/{{ include "besu-node.fullname" . }}"
+  mountOptions:
+    - "{{ .Values.storage.nfs.mountOptions }}"
+  {{- else }}
   hostPath:
     path: "/tmp/{{ include "besu-node.fullname" . }}"
+  {{- end }}
+
+
+
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#   name: {{ include "besu-node.fullname" . }}-pvc
+#   annotations:
+#     volume.beta.kubernetes.io/storage-class: "nfs-storage"
+#     annotations.nfs.io/storage-path: {{ include "besu-node.fullname" . }}
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 10Gi
 
 {{- end }}
 
