@@ -50,31 +50,31 @@ parameters:
 {{- else }}
 
 ---
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: {{ include "besu-node.fullname" . }}-storage
-  namespace: {{ .Release.Namespace }}
-  labels:
-    type: local
-spec:
-  persistentVolumeReclaimPolicy: {{ .Values.cluster.reclaimPolicy }}
-  storageClassName: {{ include "besu-node.fullname" . }}-storage
-  capacity:
-    storage: "{{ .Values.storage.sizeLimit }}"
-  accessModes:
-    - ReadWriteOnce
-    # 
-  {{- if eq .Values.storage.type "nfs" }}
-  nfs:
-    server: "{{ .Values.storage.nfs.server }}"
-    path: "/data/{{ include "besu-node.fullname" . }}"
-  mountOptions:
-    - "{{ .Values.storage.nfs.mountOptions }}"
-  {{- else }}
-  hostPath:
-    path: "/tmp/{{ include "besu-node.fullname" . }}"
-  {{- end }}
+#apiVersion: v1
+#kind: PersistentVolume
+#metadata:
+#  name: {{ include "besu-node.fullname" . }}-storage
+#  namespace: {{ .Release.Namespace }}
+#  labels:
+#    type: local
+#spec:
+#  persistentVolumeReclaimPolicy: {{ .Values.cluster.reclaimPolicy }}
+#  storageClassName: {{ include "besu-node.fullname" . }}-storage
+#  capacity:
+#    storage: "{{ .Values.storage.sizeLimit }}"
+#  accessModes:
+#    - ReadWriteOnce
+#    # 
+#  {{- if eq .Values.storage.type "nfs" }}
+#  nfs:
+#    server: "{{ .Values.storage.nfs.server }}"
+#    path: "/storage/{{ include "besu-node.fullname" . }}"
+#  mountOptions:
+#    - "{{ .Values.storage.nfs.mountOptions }}"
+#  {{- else }}
+#  hostPath:
+#    path: "/tmp/{{ include "besu-node.fullname" . }}"
+#  {{- end }}
 
 
 

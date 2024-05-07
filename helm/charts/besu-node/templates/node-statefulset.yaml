@@ -36,7 +36,7 @@ spec:
       name: data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ include "besu-node.fullname" . }}-storage
+      storageClassName: nfs-client
       resources:
         requests:
           storage: "{{ .Values.storage.pvcSizeLimit }}"
@@ -71,14 +71,14 @@ spec:
 
 {{- if has .Values.cluster.provider .Values.volumePermissionsFix }}
       # fix for minikube and PVC's only writable as root https://github.com/kubernetes/minikube/issues/1990
-      - name: volume-permission-besu
-        image: busybox
-        command: ["sh", "-c", "chown -R 1000:1000 /data"]
-        volumeMounts:
-          - name: data
-            mountPath: /data
-        securityContext:
-          runAsUser: 0
+#      - name: volume-permission-besu
+#        image: busybox
+#        command: ["sh", "-c", "chown -R 1000:1000 /data"]
+#        volumeMounts:
+#          - name: data
+#            mountPath: /data
+#        securityContext:
+#          runAsUser: 0
 {{- end}}
 
       containers:
